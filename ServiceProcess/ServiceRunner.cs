@@ -1,31 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
 using System.Threading;
-using System.IO;
-using System.Net;
-using System.Reflection;
 
 namespace ServiceProcess
 {
     public class ServiceRunner
     {
-        static bool serviceStarted = false;
-        static bool readyToStop = true;
+        private static bool serviceStarted;
+        private static bool readyToStop = true;
 
-        public static bool IsReadyToExit
+        private ServiceCore serviceCore;
+
+        public bool IsReadyToExit
         {
-            get { return !serviceStarted && readyToStop; }
+            get
+            {
+                return !serviceStarted && readyToStop;
+            }
         }
 
-        public static void StartService()
+        /// <summary>
+        /// 启动服务
+        /// </summary>
+        public void StartService()
         {
             serviceStarted = true;
-            ThreadPool.QueueUserWorkItem(StartServiceThread);
+            StartServiceThread();
         }
 
-        public static void StopService()
+        /// <summary>
+        /// 停止服务
+        /// </summary>
+        public void StopService()
         {
             serviceStarted = false;
             while (!IsReadyToExit)
@@ -34,40 +41,54 @@ namespace ServiceProcess
             }
         }
 
-        public static void StartServiceThread(object state)
+        public void StartServiceThread()
         {
             while (serviceStarted)
             {
                 readyToStop = false;
+                serviceCore = new ServiceCore();
 
-                // Perform actions
-                SimulateLongRunningTask();
+                serviceCore.HandlerActionAsync(SubProcessUpgrade, LogAction);
+                serviceCore.NewLine();
 
                 readyToStop = true;
-                Thread.Sleep(10000);
+                Thread.Sleep(5000);
             }
         }
 
-        private void DownloadFile(string fileName)
+        /// <summary>
+        /// 子程序更新
+        /// </summary>
+        private void SubProcessUpgrade()
         {
-            var urlAddress = Path.Combine("http://localhost:53498/", "upgrade", fileName);
-            var receivePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileName(urlAddress));
-            var client = new WebClient();
-            client.DownloadFile(urlAddress, receivePath);
-        }
+            var needUpgrade = serviceCore.NeedUpgrate();
 
-        private static void SimulateLongRunningTask()
-        {
-            for (int i = 0; i < 10; i++)
+            if (needUpgrade)
             {
-                using (StreamWriter sw = new StreamWriter(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "output.txt"), true))
-                {
-                    sw.WriteLine("{0} - Process iterrated", DateTime.Now.ToString().PadRight(30, ' '));
-                    Thread.Sleep(1000);
-                }
+                serviceCore.CleanUpgradeDir();
+                serviceCore.DownloadFile();
+                serviceCore.Archive();
+                serviceCore.CopyFile();
+                serviceCore.DeleteUpgradeDir();
             }
+
+            serviceCore.RunSubProcess();
         }
 
+        /// <summary>
+        /// 记录Log方法
+        /// </summary>
+        /// <param name="ex"></param>
+        private void LogAction(Exception ex)
+        {
+            var sb = new StringBuilder();
+            sb.Append(string.Format("Message：{0}", ex.Message));
+            if (ex.InnerException != null)
+            {
+                sb.Append(string.Format("，InnerException：{0}", ex.InnerException.Message));
+            }
 
+            serviceCore.LogError(sb.ToString());
+        }
     }
 }

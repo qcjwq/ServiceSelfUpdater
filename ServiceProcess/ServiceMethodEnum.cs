@@ -1,4 +1,4 @@
-﻿namespace ServiceTestHarness
+﻿namespace ServiceProcess
 {
     public enum ServiceMethodEnum
     {

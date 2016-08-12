@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ServiceTestHarness
+namespace ServiceProcess
 {
     /// <summary>
     /// 服务方法自定义特性
