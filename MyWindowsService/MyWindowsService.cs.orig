@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+<<<<<<< HEAD
+using System.Data;
+using System.Diagnostics;
+using System.Linq;
+=======
+using System.Diagnostics;
+>>>>>>> 34b5a0c0fb267cc8afc2814e5023f5ef9ea00866
+using System.ServiceProcess;
+using System.Text;
+using ServiceProcess;
+
+namespace MyWindowsService
+{
+    public partial class MyWindowsService : ServiceBase
+    {
+        public MyWindowsService()
+        {
+            InitializeComponent();
+        }
+
+        protected override void OnStart(string[] args)
+        {
+<<<<<<< HEAD
+            ServiceRunner.StartService();
+=======
+            new ServiceRunner().StartService();
+>>>>>>> 34b5a0c0fb267cc8afc2814e5023f5ef9ea00866
+        }
+
+        protected override void OnStop()
+        {
+<<<<<<< HEAD
+            ServiceRunner.StopService();
+=======
+            new ServiceRunner().StopService();
+>>>>>>> 34b5a0c0fb267cc8afc2814e5023f5ef9ea00866
+        }
+    }
+}

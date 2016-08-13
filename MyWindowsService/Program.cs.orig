@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+<<<<<<< HEAD
+using System.Linq;
+=======
+>>>>>>> 34b5a0c0fb267cc8afc2814e5023f5ef9ea00866
+using System.ServiceProcess;
+using System.Text;
+
+namespace MyWindowsService
+{
+    static class Program
+    {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        static void Main()
+        {
+            ServiceBase[] ServicesToRun;
+            ServicesToRun = new ServiceBase[] 
+			{ 
+				new MyWindowsService() 
+			};
+            ServiceBase.Run(ServicesToRun);
+        }
+    }
+}
