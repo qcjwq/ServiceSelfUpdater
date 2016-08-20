@@ -3,11 +3,8 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Ionic.Zip;
-using IServiceSelfUpdater;
 using unirest_net.http;
 
 namespace ServiceProcess
@@ -140,6 +137,11 @@ namespace ServiceProcess
         /// </summary>
         public void CleanUpgradeDir()
         {
+            if (!Directory.Exists(this.ReceiveDir))
+            {
+                return;
+            }
+
             Directory.Delete(this.ReceiveDir, true);
             this.LogInfo(string.Format("清理{0}文件夹成功", this.GetDirName(this.ReceiveDir)));
         }
@@ -180,6 +182,11 @@ namespace ServiceProcess
         /// </summary>
         public void CopyFile()
         {
+            if (!Directory.Exists(this.ReceiveTempDir))
+            {
+                return;
+            }
+
             var sourceFiles = Directory.GetFileSystemEntries(this.ReceiveTempDir, "*.*")
                 .Where(a => !a.EndsWith("zip") && !a.EndsWith("rar") && !a.EndsWith("7z")).ToList();
             if (!Directory.Exists(this.StartUpDir))
@@ -212,6 +219,11 @@ namespace ServiceProcess
         /// </summary>
         public void DeleteUpgradeDir()
         {
+            if (!Directory.Exists(this.ReceiveDir))
+            {
+                return;
+            }
+
             Directory.Delete(this.ReceiveTempDir, true);
             this.LogInfo(string.Format("文件夹{0}删除成功", this.GetDirName(this.ReceiveTempDir)));
         }
@@ -240,7 +252,7 @@ namespace ServiceProcess
         /// <param name="info"></param>
         public void LogInfo(string info)
         {
-            Console.WriteLine("{0} - {1}", DateTime.Now.ToString(CultureInfo.InvariantCulture).PadRight(10, ' '), info);
+            Console.WriteLine("{0} - {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").PadRight(10, ' '), info);
         }
 
         /// <summary>
@@ -249,7 +261,7 @@ namespace ServiceProcess
         /// <param name="errorMessage"></param>
         public void LogError(string errorMessage)
         {
-            Console.WriteLine("{0} - {1}", DateTime.Now.ToString(CultureInfo.InvariantCulture).PadRight(10, ' '), errorMessage);
+            Console.WriteLine("{0} - {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").PadRight(10, ' '), errorMessage);
         }
 
         /// <summary>
