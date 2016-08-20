@@ -51,8 +51,8 @@
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -80,12 +80,17 @@
     <Compile Include="ServiceRunner.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IServiceSelfUpdater\IServiceSelfUpdater.csproj">
       <Project>{445CBD68-1CC7-47C6-B11C-E911B02C65F1}</Project>
       <Name>IServiceSelfUpdater</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceSelfUpdate.Contract\ServiceSelfUpdate.Contract.csproj">
+      <Project>{F5BAD4D4-1D57-4946-B95B-F6E236C95920}</Project>
+      <Name>ServiceSelfUpdate.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

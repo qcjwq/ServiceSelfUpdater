@@ -13,3 +13,9 @@ C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.pdb
 C:\Project\Private\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.csprojResolveAssemblyReference.cache
 C:\Project\Private\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.dll
 C:\Project\Private\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.pdb
+C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.dll
+C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.pdb
+C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.csprojResolveAssemblyReference.cache
+C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.dll
+C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.pdb
+C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.dll.config

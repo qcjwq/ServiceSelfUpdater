@@ -3,18 +3,17 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 using Ionic.Zip;
 using IServiceSelfUpdater;
+using ServiceSelfUpdate.Contract;
 using unirest_net.http;
 
 namespace ServiceProcess
 {
     public class ServiceCore
     {
-        private int localVersion = 0;
+        private int Version = 0;
         private readonly string Host = "http://localhost:8001/WebServiceTestTools4J/";
         private readonly string UpgradeHost = "http://localhost/ServerUpdateWebHost";
 
@@ -39,14 +38,21 @@ namespace ServiceProcess
         public string StartUpDir;
 
         /// <summary>
+        /// 配置文件夹
+        /// </summary>
+        public string ConfigDir;
+
+        /// <summary>
         /// 构造函数
         /// </summary>
         public ServiceCore()
         {
             var guid = Guid.NewGuid();
-            this.ReceiveDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Upgrade");
+            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            this.ReceiveDir = Path.Combine(baseDirectory, "Upgrade");
             this.ReceiveTempDir = Path.Combine(this.ReceiveDir, guid.ToString());
-            this.StartUpDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "StartUp");
+            this.StartUpDir = Path.Combine(baseDirectory, "StartUp");
+            this.ConfigDir = Path.Combine(baseDirectory, "Config");
         }
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace ServiceProcess
             }
             catch (Exception ex)
             {
-                this.LogError(ex.Message);
+                LogError(ex.Message);
             }
         }
 
@@ -107,10 +113,16 @@ namespace ServiceProcess
         {
             var method = GetMethodName(ServiceMethodEnum.ServerVersion);
             var response = Unirest.get(method).asString().Body;
-            var result = Convert.ToInt32(response) > localVersion;
+            int i;
+            if (!int.TryParse(response, out i))
+            {
+                return false;
+            }
+
+            var result = int.Parse(response) > Version;
             if (result)
             {
-                this.LogInfo("有新版本文件");
+                LogInfo("有新版本文件");
             }
 
             return result;
@@ -132,7 +144,7 @@ namespace ServiceProcess
             }
 
             var methodName = attributes[0].MethodName;
-            return Path.Combine(this.Host, "api", methodName);
+            return Path.Combine(Host, "api", methodName);
         }
 
         /// <summary>
@@ -140,8 +152,8 @@ namespace ServiceProcess
         /// </summary>
         public void CleanUpgradeDir()
         {
-            Directory.Delete(this.ReceiveDir, true);
-            this.LogInfo(string.Format("清理{0}文件夹成功", this.GetDirName(this.ReceiveDir)));
+            Directory.Delete(ReceiveDir, true);
+            LogInfo(string.Format("清理{0}文件夹成功", GetDirName(ReceiveDir)));
         }
 
         /// <summary>
@@ -149,7 +161,7 @@ namespace ServiceProcess
         /// </summary>
         public void DownloadFile()
         {
-            var urlAddress = Path.Combine(this.UpgradeHost, "upgrade", this.UpgradeFileName);
+            var urlAddress = Path.Combine(UpgradeHost, "upgrade", UpgradeFileName);
             if (!Directory.Exists(ReceiveTempDir))
             {
                 Directory.CreateDirectory(ReceiveTempDir);
@@ -158,7 +170,7 @@ namespace ServiceProcess
             var receivePath = Path.Combine(ReceiveTempDir, Path.GetFileName(urlAddress));
             new WebClient().DownloadFile(urlAddress, receivePath);
 
-            this.LogInfo("下载文件完毕");
+            LogInfo("下载文件完毕");
         }
 
         /// <summary>
@@ -166,13 +178,13 @@ namespace ServiceProcess
         /// </summary>
         public void Archive()
         {
-            var filePath = Path.Combine(this.ReceiveTempDir, this.UpgradeFileName);
+            var filePath = Path.Combine(ReceiveTempDir, UpgradeFileName);
             using (var zip = new ZipFile(filePath))
             {
-                zip.ExtractAll(this.ReceiveTempDir, ExtractExistingFileAction.OverwriteSilently);
+                zip.ExtractAll(ReceiveTempDir, ExtractExistingFileAction.OverwriteSilently);
             }
 
-            this.LogInfo("解压文件完毕");
+            LogInfo("解压文件完毕");
         }
 
         /// <summary>
@@ -180,29 +192,29 @@ namespace ServiceProcess
         /// </summary>
         public void CopyFile()
         {
-            var sourceFiles = Directory.GetFileSystemEntries(this.ReceiveTempDir, "*.*")
+            var sourceFiles = Directory.GetFileSystemEntries(ReceiveTempDir, "*.*")
                 .Where(a => !a.EndsWith("zip") && !a.EndsWith("rar") && !a.EndsWith("7z")).ToList();
-            if (!Directory.Exists(this.StartUpDir))
+            if (!Directory.Exists(StartUpDir))
             {
-                this.LogInfo("创建启动目录成功");
-                Directory.CreateDirectory(this.StartUpDir);
+                LogInfo("创建启动目录成功");
+                Directory.CreateDirectory(StartUpDir);
             }
 
             foreach (var sourceFileName in sourceFiles)
             {
                 var fileName = new FileInfo(sourceFileName).Name;
-                var destFileName = Path.Combine(this.StartUpDir, fileName);
+                var destFileName = Path.Combine(StartUpDir, fileName);
 
-                this.HandlerAction(() =>
+                HandlerAction(() =>
                 {
                     if (File.Exists(destFileName))
                     {
                         File.Delete(destFileName);
-                        this.LogInfo(string.Format("{0}文件删除完毕", fileName));
+                        LogInfo(string.Format("{0}文件删除完毕", fileName));
                     }
 
                     File.Copy(sourceFileName, destFileName);
-                    this.LogInfo(string.Format("{0}文件复制完毕", fileName));
+                    LogInfo(string.Format("{0}文件复制完毕", fileName));
                 });
             }
         }
@@ -212,8 +224,8 @@ namespace ServiceProcess
         /// </summary>
         public void DeleteUpgradeDir()
         {
-            Directory.Delete(this.ReceiveTempDir, true);
-            this.LogInfo(string.Format("文件夹{0}删除成功", this.GetDirName(this.ReceiveTempDir)));
+            Directory.Delete(ReceiveTempDir, true);
+            LogInfo(string.Format("文件夹{0}删除成功", GetDirName(ReceiveTempDir)));
         }
 
         /// <summary>
@@ -221,16 +233,16 @@ namespace ServiceProcess
         /// </summary>
         public void RunSubProcess()
         {
-            var allDlls = Directory.GetFileSystemEntries(this.StartUpDir, "*.*").ToList();
-            allDlls.ForEach(this.Invoke);
+            var allDlls = Directory.GetFileSystemEntries(StartUpDir, "*.*").ToList();
+            allDlls.ForEach(a => Invoke(a, typeof(IServiceSelfUpdate), "Execute"));
         }
 
-        private void Invoke(string assemblyPath)
+        private void Invoke(string assemblyPath, Type type, string methodName)
         {
             var subAppDomain = AppDomain.CreateDomain("SubProcess");
-            var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(this.GetType().Module.Name, typeof(ProxyObject).FullName);
-            proxy.LoadAssembly(assemblyPath);
-            proxy.Invoke();
+            var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(GetType().Module.Name, typeof(ProxyObject).FullName);
+            proxy.LoadAssembly(assemblyPath, type);
+            proxy.Invoke(methodName);
             AppDomain.Unload(subAppDomain);
         }
 
