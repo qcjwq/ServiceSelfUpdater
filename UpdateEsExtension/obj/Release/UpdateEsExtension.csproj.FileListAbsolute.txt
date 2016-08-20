@@ -1,5 +1,0 @@
-C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll
-C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.pdb
-C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\obj\Release\UpdateEsExtension.csprojResolveAssemblyReference.cache
-C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\obj\Release\UpdateEsExtension.dll
-C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\obj\Release\UpdateEsExtension.pdb
