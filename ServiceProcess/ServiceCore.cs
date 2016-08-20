@@ -152,8 +152,13 @@ namespace ServiceProcess
         /// </summary>
         public void CleanUpgradeDir()
         {
-            Directory.Delete(ReceiveDir, true);
-            LogInfo(string.Format("清理{0}文件夹成功", GetDirName(ReceiveDir)));
+            if (!Directory.Exists(this.ReceiveDir))
+            {
+                return;
+            }
+
+            Directory.Delete(this.ReceiveDir, true);
+            this.LogInfo(string.Format("清理{0}文件夹成功", this.GetDirName(this.ReceiveDir)));
         }
 
         /// <summary>
@@ -192,7 +197,12 @@ namespace ServiceProcess
         /// </summary>
         public void CopyFile()
         {
-            var sourceFiles = Directory.GetFileSystemEntries(ReceiveTempDir, "*.*")
+            if (!Directory.Exists(this.ReceiveTempDir))
+            {
+                return;
+            }
+
+            var sourceFiles = Directory.GetFileSystemEntries(this.ReceiveTempDir, "*.*")
                 .Where(a => !a.EndsWith("zip") && !a.EndsWith("rar") && !a.EndsWith("7z")).ToList();
             if (!Directory.Exists(StartUpDir))
             {
@@ -224,8 +234,13 @@ namespace ServiceProcess
         /// </summary>
         public void DeleteUpgradeDir()
         {
-            Directory.Delete(ReceiveTempDir, true);
-            LogInfo(string.Format("文件夹{0}删除成功", GetDirName(ReceiveTempDir)));
+            if (!Directory.Exists(this.ReceiveDir))
+            {
+                return;
+            }
+
+            Directory.Delete(this.ReceiveTempDir, true);
+            this.LogInfo(string.Format("文件夹{0}删除成功", this.GetDirName(this.ReceiveTempDir)));
         }
 
         /// <summary>
@@ -252,7 +267,7 @@ namespace ServiceProcess
         /// <param name="info"></param>
         public void LogInfo(string info)
         {
-            Console.WriteLine("{0} - {1}", DateTime.Now.ToString(CultureInfo.InvariantCulture).PadRight(10, ' '), info);
+            Console.WriteLine("{0} - {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").PadRight(10, ' '), info);
         }
 
         /// <summary>
@@ -261,7 +276,7 @@ namespace ServiceProcess
         /// <param name="errorMessage"></param>
         public void LogError(string errorMessage)
         {
-            Console.WriteLine("{0} - {1}", DateTime.Now.ToString(CultureInfo.InvariantCulture).PadRight(10, ' '), errorMessage);
+            Console.WriteLine("{0} - {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").PadRight(10, ' '), errorMessage);
         }
 
         /// <summary>

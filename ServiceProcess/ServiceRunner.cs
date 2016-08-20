@@ -65,11 +65,14 @@ namespace ServiceProcess
 
             if (needUpgrade)
             {
-                serviceCore.CleanUpgradeDir();
-                serviceCore.DownloadFile();
-                serviceCore.Archive();
-                serviceCore.CopyFile();
-                serviceCore.DeleteUpgradeDir();
+                serviceCore.HandlerAction(() =>
+                {
+                    serviceCore.CleanUpgradeDir();
+                    serviceCore.DownloadFile();
+                    serviceCore.Archive();
+                    serviceCore.CopyFile();
+                    serviceCore.DeleteUpgradeDir();
+                });
             }
 
             serviceCore.RunSubProcess();
