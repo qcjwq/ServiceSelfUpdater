@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Reflection;
+using System.Linq;
 using System.Text;
-using ServiceProcess;
 using System.Threading;
+using System.Threading.Tasks;
+using ServiceProcess;
 
-namespace ServiceTestHarness
+namespace ServerUpdateConsole
 {
     class Program
     {
