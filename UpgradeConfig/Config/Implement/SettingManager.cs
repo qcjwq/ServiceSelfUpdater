@@ -11,7 +11,7 @@ namespace UpgradeConfig.Config.Implement
             var upgradeSetting = new UpgradeSetting
             {
                 Version = 0,
-                Loop = 3000
+                StartLoop = 3000
             };
             return upgradeSetting;
         }

@@ -10,6 +10,6 @@
         /// <summary>
         /// 循环毫秒数
         /// </summary>
-        public int Loop { get; set; }
+        public int StartLoop { get; set; }
     }
 }
