@@ -19,3 +19,4 @@ C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.cspr
 C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.dll
 C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.pdb
 C:\Project\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll.config
+C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll.config
