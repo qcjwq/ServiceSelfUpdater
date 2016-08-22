@@ -19,3 +19,4 @@ C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.
 C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.dll
 C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.pdb
 C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.dll.config
+C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.dll.config
