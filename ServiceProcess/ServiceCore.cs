@@ -4,6 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Ionic.Zip;
 using IServiceSelfUpdater;
 using ServiceSelfUpdate.Contract;
@@ -71,7 +72,7 @@ namespace ServiceProcess
             }
             catch (Exception ex)
             {
-                LogError(ex.Message);
+                Helper.LogError(ex.Message);
             }
         }
 

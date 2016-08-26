@@ -14,9 +14,3 @@ C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.cspr
 C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.dll
 C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.pdb
 C:\Project\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll.config
-C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll.config
-C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll
-C:\Project\Private\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.pdb
-C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.csprojResolveAssemblyReference.cache
-C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.dll
-C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.pdb
