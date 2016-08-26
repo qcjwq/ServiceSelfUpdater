@@ -2,6 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading;
+using ServiceSelfUpdate.Contract;
 
 namespace ServiceProcess
 {
@@ -9,8 +10,18 @@ namespace ServiceProcess
     {
         private static bool serviceStarted;
         private static bool readyToStop = true;
-
         private ServiceCore serviceCore;
+
+        private UpgradeSetting upgradeSetting;
+
+        public ServiceRunner()
+        {
+            upgradeSetting = new UpgradeSetting()
+            {
+                Version = 0,
+                StartLoop = 5000
+            };
+        }
 
         public bool IsReadyToExit
         {
@@ -48,13 +59,18 @@ namespace ServiceProcess
                 readyToStop = false;
                 serviceCore = new ServiceCore();
 
-                serviceCore.HandlerAction(serviceCore.Test);
-                //serviceCore.HandlerActionAsync(SubProcessUpgrade, LogAction);
-                serviceCore.NewLine();
+                Helper.HandlerAction(this.SetUpgradeSetting, this.LogAction);
+                Helper.HandlerActionAsync(this.SubProcessUpgrade, this.LogAction);
+                Helper.NewLine();
 
                 readyToStop = true;
-                Thread.Sleep(5000);
+                Thread.Sleep(upgradeSetting.StartLoop);
             }
+        }
+
+        private void SetUpgradeSetting()
+        {
+            var config = serviceCore.GetUpgradeSetting();
         }
 
         /// <summary>
@@ -66,11 +82,14 @@ namespace ServiceProcess
 
             if (needUpgrade)
             {
-                serviceCore.CleanUpgradeDir();
-                serviceCore.DownloadFile();
-                serviceCore.Archive();
-                serviceCore.CopyFile();
-                serviceCore.DeleteUpgradeDir();
+                Helper.HandlerAction(() =>
+                {
+                    serviceCore.CleanUpgradeDir();
+                    serviceCore.DownloadFile();
+                    serviceCore.Archive();
+                    serviceCore.CopyFile();
+                    serviceCore.DeleteUpgradeDir();
+                });
             }
 
             serviceCore.RunSubProcess();
@@ -89,7 +108,7 @@ namespace ServiceProcess
                 sb.Append(string.Format("，InnerException：{0}", ex.InnerException.Message));
             }
 
-            serviceCore.LogError(sb.ToString());
+            Helper.LogError(sb.ToString());
         }
     }
 }

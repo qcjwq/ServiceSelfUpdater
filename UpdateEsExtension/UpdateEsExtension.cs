@@ -16,9 +16,9 @@ namespace UpdateEsExtension
 
         public void Execute()
         {
-            serviceCore.LogInfo("ES插件运行");
-            serviceCore.LogInfo("追加信息");
-            serviceCore.LogInfo("追加信息2");
+            Helper.LogInfo("ES插件运行");
+            Helper.LogInfo("追加信息");
+            Helper.LogInfo("追加信息2");
         }
     }
 }

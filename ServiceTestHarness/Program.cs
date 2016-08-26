@@ -30,7 +30,7 @@ namespace ServiceTestHarness
             while (!service.IsReadyToExit)
             {
                 Console.Write(".");
-                Thread.Sleep(1000);
+                Thread.Sleep(5000);
             }
 
             Console.Write(" Stopped." + Environment.NewLine);

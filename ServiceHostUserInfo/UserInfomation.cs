@@ -18,7 +18,7 @@ namespace ServiceHostUserInfo
 
         public void Execute()
         {
-            serviceCore.LogInfo("获取用户信息");
+            Helper.LogInfo("获取用户信息");
         }
     }
 }
