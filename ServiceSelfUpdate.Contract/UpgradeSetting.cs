@@ -1,5 +1,8 @@
-﻿namespace ServiceSelfUpdate.Contract
+﻿using System;
+
+namespace ServiceSelfUpdate.Contract
 {
+    [Serializable]
     public class UpgradeSetting
     {
         /// <summary>

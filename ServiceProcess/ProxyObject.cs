@@ -5,6 +5,7 @@ using IServiceSelfUpdater;
 
 namespace ServiceProcess
 {
+    [Serializable]
     public class ProxyObject : MarshalByRefObject
     {
         private Assembly assembly;

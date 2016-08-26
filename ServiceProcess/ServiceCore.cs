@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace ServiceProcess
             this.ReceiveDir = Path.Combine(baseDirectory, "Upgrade");
             this.ReceiveTempDir = Path.Combine(this.ReceiveDir, guid.ToString());
             this.StartUpDir = Path.Combine(baseDirectory, "StartUp");
-            this.ConfigDir = Path.Combine(baseDirectory, "Config");
+            this.ConfigDir = Path.Combine(this.StartUpDir, "Config");
         }
 
         /// <summary>
@@ -237,13 +238,28 @@ namespace ServiceProcess
             allDlls.ForEach(a => Invoke(a, typeof(IServiceSelfUpdate), "Execute"));
         }
 
-        private void Invoke(string assemblyPath, Type type, string methodName)
+        public void Test()
+        {
+            var path = Path.Combine(this.ConfigDir, "UpgradeConfig.dll");
+            var result = Invoke(path, typeof(IServiceSelfUpdateConfig), "GetUpgradeSetting");
+            if (result == null || !(result is UpgradeSetting))
+            {
+                return;
+            }
+
+            var config = result as UpgradeSetting;
+            Console.WriteLine("Loop：{0}，Version：{1}",config.Loop,config.Version);
+        }
+
+        public object Invoke(string assemblyPath, Type type, string methodName)
         {
             var subAppDomain = AppDomain.CreateDomain("SubProcess");
             var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(GetType().Module.Name, typeof(ProxyObject).FullName);
             proxy.LoadAssembly(assemblyPath, type);
-            proxy.Invoke(methodName);
+            var result = proxy.Invoke(methodName);
             AppDomain.Unload(subAppDomain);
+
+            return result;
         }
 
         /// <summary>

@@ -48,7 +48,8 @@ namespace ServiceProcess
                 readyToStop = false;
                 serviceCore = new ServiceCore();
 
-                serviceCore.HandlerActionAsync(SubProcessUpgrade, LogAction);
+                serviceCore.HandlerAction(serviceCore.Test);
+                //serviceCore.HandlerActionAsync(SubProcessUpgrade, LogAction);
                 serviceCore.NewLine();
 
                 readyToStop = true;

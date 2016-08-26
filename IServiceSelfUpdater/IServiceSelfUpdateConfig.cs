@@ -1,4 +1,5 @@
-﻿using ServiceSelfUpdate.Contract;
+﻿using System;
+using ServiceSelfUpdate.Contract;
 
 namespace IServiceSelfUpdater
 {
