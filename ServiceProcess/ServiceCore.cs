@@ -1,10 +1,7 @@
 ﻿using System;
-using System.CodeDom;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using Ionic.Zip;
 using IServiceSelfUpdater;
 using ServiceSelfUpdate.Contract;
@@ -14,7 +11,6 @@ namespace ServiceProcess
 {
     public class ServiceCore
     {
-        private int Version = 0;
         private readonly string UpgradeHost = "http://localhost/ServerUpdateWebHost";
 
         /// <summary>
@@ -25,22 +21,22 @@ namespace ServiceProcess
         /// <summary>
         /// 接收文件夹
         /// </summary>
-        public string ReceiveDir;
+        private readonly string ReceiveDir;
 
         /// <summary>
         /// 接收临时文件夹
         /// </summary>
-        public string ReceiveTempDir;
+        private readonly string ReceiveTempDir;
 
         /// <summary>
         /// 启动文件夹
         /// </summary>
-        public string StartUpDir;
+        private readonly string StartUpDir;
 
         /// <summary>
         /// 配置文件夹
         /// </summary>
-        public string ConfigDir;
+        private readonly string ConfigDir;
 
         /// <summary>
         /// 文件和文件夹复制事件
@@ -58,63 +54,33 @@ namespace ServiceProcess
             this.ReceiveTempDir = Path.Combine(this.ReceiveDir, guid.ToString());
             this.StartUpDir = Path.Combine(baseDirectory, "StartUp");
             this.ConfigDir = Path.Combine(this.StartUpDir, "Config");
+            this.CopyHandler += this.FileCopyEvent;
         }
 
         /// <summary>
-        /// 处理请求
+        /// 文件和文件夹复制通知事件
         /// </summary>
-        /// <param name="requestAction"></param>
-        public void HandlerAction(Action requestAction)
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FileCopyEvent(object sender, FileSystemInfo e)
         {
-            try
+            if (e.Attributes == FileAttributes.Directory)
             {
-                requestAction();
+                Helper.LogInfo(string.Format("【复制】：文件夹{0}复制成功", e.Name));
             }
-            catch (Exception ex)
+            else
             {
-                Helper.LogError(ex.Message);
+                Helper.LogInfo(string.Format("【复制】：文件{0}复制成功", e.Name));
             }
         }
 
-        /// <summary>
-        /// 处理请求
-        /// </summary>
-        /// <param name="requestAction"></param>
-        /// <param name="errorAction"></param>
-        public void HandlerAction(Action requestAction, Action<Exception> errorAction)
-        {
-            try
-            {
-                requestAction();
-            }
-            catch (Exception ex)
-            {
-                errorAction(ex);
-            }
-        }
-
-        /// <summary>
-        /// 处理请求，采用异步
-        /// </summary>
-        /// <param name="requestAction"></param>
-        /// <param name="errorAction"></param>
-        public async void HandlerActionAsync(Action requestAction, Action<Exception> errorAction)
-        {
-            try
-            {
-                await Task.Factory.StartNew(requestAction);
-            }
-            catch (Exception ex)
-            {
-                errorAction(ex);
-            }
-        }
 
         /// <summary>
         /// 获取服务器最新版本，和本地版本比较是否需要更新
         /// </summary>
+        /// <param name="upgradeSetting"></param>
         /// <returns></returns>
-        public bool NeedUpgrate()
+        public bool NeedUpgrate(UpgradeSetting upgradeSetting)
         {
             var method = Helper.GetMethodName(ServiceMethodEnum.ServerVersion);
             var response = Unirest.get(method).asString().Body;
@@ -124,10 +90,11 @@ namespace ServiceProcess
                 return false;
             }
 
-            var result = int.Parse(response) > Version;
+            upgradeSetting.ServiceVersion = int.Parse(response);
+            var result = upgradeSetting.ServiceVersion > upgradeSetting.LocalVersion;
             if (result)
             {
-                Helper.LogInfo("有新版本文件");
+                Helper.LogInfo(string.Format("【更新】：有新版本文件，服务器版本：{0}", upgradeSetting.ServiceVersion));
             }
 
             return result;
@@ -139,9 +106,21 @@ namespace ServiceProcess
         /// <returns></returns>
         public UpgradeSetting GetUpgradeSetting()
         {
+            if (!Directory.Exists(this.ConfigDir))
+            {
+                return null;
+            }
+
             var allDlls = Directory.GetFileSystemEntries(this.ConfigDir, "*.*");
             if (!allDlls.Any())
             {
+                return null;
+            }
+
+            if (allDlls.Length > 1)
+            {
+                Directory.Delete(this.ConfigDir, true);
+                Helper.LogError("【清空】：配置文件数量多于一个，清空整个配置文件目录完成");
                 return null;
             }
 
@@ -165,7 +144,7 @@ namespace ServiceProcess
             }
 
             Directory.Delete(this.ReceiveDir, true);
-            Helper.LogInfo(string.Format("清理{0}文件夹成功", this.GetDirName(this.ReceiveDir)));
+            Helper.LogInfo(string.Format("【清理】：清理{0}文件夹成功", this.GetDirName(this.ReceiveDir)));
         }
 
         /// <summary>
@@ -182,7 +161,7 @@ namespace ServiceProcess
             var receivePath = Path.Combine(ReceiveTempDir, Path.GetFileName(urlAddress));
             new WebClient().DownloadFile(urlAddress, receivePath);
 
-            Helper.LogInfo("下载文件完毕");
+            Helper.LogInfo("【下载】：下载文件完毕");
         }
 
         /// <summary>
@@ -196,7 +175,7 @@ namespace ServiceProcess
                 zip.ExtractAll(ReceiveTempDir, ExtractExistingFileAction.OverwriteSilently);
             }
 
-            Helper.LogInfo("解压文件完毕");
+            Helper.LogInfo("【解压】：解压文件完毕");
         }
 
         /// <summary>
@@ -211,7 +190,7 @@ namespace ServiceProcess
 
             if (!Directory.Exists(StartUpDir))
             {
-                Helper.LogInfo("创建启动目录成功");
+                Helper.LogInfo("【创建】：创建启动目录成功");
                 Directory.CreateDirectory(StartUpDir);
             }
 
@@ -256,7 +235,7 @@ namespace ServiceProcess
             }
 
             Directory.Delete(this.ReceiveTempDir, true);
-            Helper.LogInfo(string.Format("文件夹{0}删除成功", this.GetDirName(this.ReceiveTempDir)));
+            Helper.LogInfo(string.Format("【删除】：文件夹{0}删除成功", this.GetDirName(this.ReceiveTempDir)));
         }
 
         /// <summary>
@@ -264,6 +243,11 @@ namespace ServiceProcess
         /// </summary>
         public void RunSubProcess()
         {
+            if (!Directory.Exists(this.StartUpDir))
+            {
+                return;
+            }
+
             var allDlls = Directory.GetFileSystemEntries(this.StartUpDir, "*.*").ToList();
             allDlls.ForEach(a => Invoke(a, typeof(IServiceSelfUpdate), "Execute"));
         }
@@ -283,31 +267,35 @@ namespace ServiceProcess
                 return result;
             }
 
+            bool hasException = false;
             var subAppDomain = AppDomain.CreateDomain("SubProcess");
-            var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(this.GetType().Module.Name, typeof(ProxyObject).FullName);
-            proxy.LoadAssembly(assemblyPath, type);
-            result = proxy.Invoke(methodName);
-            AppDomain.Unload(subAppDomain);
-            return result;
-        }
-
-        /// <summary>
-        /// 文件和文件夹复制事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void CopyFileEvent(object sender, FileSystemInfo e)
-        {
-            if (e is FileInfo)
+            try
             {
-                Helper.LogInfo(string.Format("{0}文件复制完毕", e.Name));
+                var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(this.GetType().Module.Name, typeof(ProxyObject).FullName);
+                proxy.LoadAssembly(assemblyPath, type);
+                result = proxy.Invoke(methodName);
+                return result;
             }
-            else if (e is DirectoryInfo)
+            catch (Exception ex)
             {
-                Helper.LogInfo(string.Format("{0}文件文件创建成功", e.Name));
+                hasException = true;
+                Helper.LogError(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                AppDomain.Unload(subAppDomain);
+                if (hasException)
+                {
+                    Helper.LogInfo("【清空开始】：反射调用时出现异常，即将清空整个启动目录");
+                    Helper.HandlerAction(() =>
+                    {
+                        Directory.Delete(this.StartUpDir, true);
+                    });
+                    Helper.LogInfo("【清空结束】：反射调用时出现异常，清空整个启动目录完成");
+                }
             }
         }
-
 
         /// <summary>
         /// 获取文件夹名称

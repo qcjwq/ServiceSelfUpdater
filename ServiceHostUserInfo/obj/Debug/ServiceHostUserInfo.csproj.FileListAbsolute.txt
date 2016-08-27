@@ -8,9 +8,9 @@ C:\Project\Private\ServiceSelfUpdater\ServiceHostUserInfo\bin\Debug\Newtonsoft.J
 C:\Project\Private\ServiceSelfUpdater\ServiceHostUserInfo\bin\Debug\IServiceSelfUpdater.pdb
 C:\Project\Private\ServiceSelfUpdater\ServiceHostUserInfo\bin\Debug\ServiceProcess.pdb
 C:\Project\Private\ServiceSelfUpdater\ServiceHostUserInfo\bin\Debug\Newtonsoft.Json.xml
+C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.dll.config
 C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.dll
 C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.pdb
 C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.csprojResolveAssemblyReference.cache
 C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.dll
 C:\Project\ServiceSelfUpdater\ServiceHostUserInfo\obj\Debug\ServiceHostUserInfo.pdb
-C:\Project\ServiceSelfUpdater\ReleaseAssemblies\ServiceHostUserInfo.dll.config

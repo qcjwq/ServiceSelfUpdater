@@ -8,9 +8,9 @@ C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\bin\Debug\Newtonsoft.Jso
 C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\bin\Debug\IServiceSelfUpdater.dll
 C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\bin\Debug\IServiceSelfUpdater.pdb
 C:\Project\Private\ServiceSelfUpdater\UpdateEsExtension\bin\Debug\UpdateEsExtension.dll
+C:\Project\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll.config
 C:\Project\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll
 C:\Project\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.pdb
 C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.csprojResolveAssemblyReference.cache
 C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.dll
 C:\Project\ServiceSelfUpdater\UpdateEsExtension\obj\Debug\UpdateEsExtension.pdb
-C:\Project\ServiceSelfUpdater\ReleaseAssemblies\UpdateEsExtension.dll.config

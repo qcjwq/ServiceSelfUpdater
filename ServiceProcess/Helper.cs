@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Ionic.Zip;
 
 namespace ServiceProcess
 {
@@ -41,6 +42,25 @@ namespace ServiceProcess
             catch (Exception ex)
             {
                 LogError(ex.Message);
+            }
+        }
+        /// <summary>
+        /// 处理请求
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="func"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static bool HandlerAction<T>(Func<T, bool> func, T t)
+        {
+            try
+            {
+                return func(t);
+            }
+            catch (Exception ex)
+            {
+                LogError(ex.ToString());
+                return false;
             }
         }
 

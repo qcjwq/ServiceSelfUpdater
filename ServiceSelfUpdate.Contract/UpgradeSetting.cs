@@ -8,7 +8,12 @@ namespace ServiceSelfUpdate.Contract
         /// <summary>
         /// 当前版本
         /// </summary>
-        public int Version { get; set; }
+        public int LocalVersion { get; set; }
+
+        /// <summary>
+        /// 服务器版本
+        /// </summary>
+        public int ServiceVersion { get; set; }
 
         /// <summary>
         /// 循环毫秒数

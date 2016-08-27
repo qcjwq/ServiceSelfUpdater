@@ -12,15 +12,27 @@ namespace ServiceProcess
         private static bool readyToStop = true;
         private ServiceCore serviceCore;
 
+        /// <summary>
+        /// 当前配置
+        /// </summary>
         private UpgradeSetting upgradeSetting;
 
+        /// <summary>
+        /// 默认配置
+        /// </summary>
+        private readonly UpgradeSetting defaultUpgradeSetting;
+
+        /// <summary>
+        /// 构造函数
+        /// </summary>
         public ServiceRunner()
         {
-            upgradeSetting = new UpgradeSetting()
+            this.defaultUpgradeSetting = new UpgradeSetting()
             {
-                Version = 0,
-                StartLoop = 5000
+                LocalVersion = 0,
+                StartLoop = 500
             };
+            this.upgradeSetting = this.defaultUpgradeSetting;
         }
 
         public bool IsReadyToExit
@@ -63,14 +75,25 @@ namespace ServiceProcess
                 Helper.HandlerActionAsync(this.SubProcessUpgrade, this.LogAction);
                 Helper.NewLine();
 
+                Helper.LogInfo(string.Format("当前版本：{0}，服务器版本：{1}，轮询周期：{2}毫秒", upgradeSetting.LocalVersion, upgradeSetting.ServiceVersion, upgradeSetting.StartLoop));
                 readyToStop = true;
                 Thread.Sleep(upgradeSetting.StartLoop);
             }
         }
 
+        /// <summary>
+        /// 设置更新配置
+        /// </summary>
         private void SetUpgradeSetting()
         {
             var config = serviceCore.GetUpgradeSetting();
+            if (config == null)
+            {
+                this.upgradeSetting = this.defaultUpgradeSetting;
+                return;
+            }
+
+            this.upgradeSetting = config;
         }
 
         /// <summary>
@@ -78,8 +101,7 @@ namespace ServiceProcess
         /// </summary>
         private void SubProcessUpgrade()
         {
-            var needUpgrade = serviceCore.NeedUpgrate();
-
+            var needUpgrade = Helper.HandlerAction(serviceCore.NeedUpgrate, upgradeSetting);
             if (needUpgrade)
             {
                 Helper.HandlerAction(() =>
@@ -102,7 +124,7 @@ namespace ServiceProcess
         private void LogAction(Exception ex)
         {
             var sb = new StringBuilder();
-            sb.Append(string.Format("Message：{0}", ex.Message));
+            sb.Append(string.Format("Message：{0}", ex));
             if (ex.InnerException != null)
             {
                 sb.Append(string.Format("，InnerException：{0}", ex.InnerException.Message));
