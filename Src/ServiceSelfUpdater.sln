@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20-SubProject", "20-SubProj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30-Interface", "30-Interface", "{87BF383E-16B8-4C71-933A-BB1899C3AACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdateSetting.Config", "UpgradeConfig\SelfUpdateSetting.Config.csproj", "{427DD4AC-539E-4CF6-A6B7-9F8B125795B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdateSetting.Config", "Config\SelfUpdateSetting.Config\SelfUpdateSetting.Config.csproj", "{427DD4AC-539E-4CF6-A6B7-9F8B125795B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdate.Contract", "ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj", "{F5BAD4D4-1D57-4946-B95B-F6E236C95920}"
 EndProject
