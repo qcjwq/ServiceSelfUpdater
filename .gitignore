@@ -245,3 +245,8 @@ ModelManifest.xml
 .fake/
 /ReleaseAssemblies
 /ReleaseAssemblies
+/packages
+/UpdateEsExtension/obj
+/UpdateEsExtension/bin
+/ServiceHostUserInfo/obj
+/ServiceHostUserInfo/bin

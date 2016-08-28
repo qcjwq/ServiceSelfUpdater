@@ -29,13 +29,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdateSetting.Config", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdate.Contract", "ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj", "{F5BAD4D4-1D57-4946-B95B-F6E236C95920}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Contract", "40 Contract", "{A4C6EC8F-413C-4BE8-8F2E-B8DE7923853E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40-Contract", "40-Contract", "{A4C6EC8F-413C-4BE8-8F2E-B8DE7923853E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "50 PluginProject", "50 PluginProject", "{8EF522C7-07BA-4BD2-B4BB-8B4549622ECC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "50-PluginProject", "50-PluginProject", "{8EF522C7-07BA-4BD2-B4BB-8B4549622ECC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdateHelper", "SelfUpdateHelper\SelfUpdateHelper.csproj", "{7D5BF980-ECD9-410A-94BA-96BCDB71E4A0}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "60 Config", "60 Config", "{955801CF-9BBA-44E7-8467-96F945236F6C}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "60-Config", "60-Config", "{955801CF-9BBA-44E7-8467-96F945236F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
