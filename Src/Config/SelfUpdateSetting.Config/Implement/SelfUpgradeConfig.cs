@@ -12,7 +12,7 @@ namespace SelfUpdateSetting.Config.Implement
             var upgradeSetting = new UpgradeSetting
             {
                 LocalVersion = 1,
-                StartLoop = 3000
+                StartLoop = 30000
             };
             return upgradeSetting;
         }
