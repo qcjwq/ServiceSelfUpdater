@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ServiceProcess
+namespace SelfUpdate.Contract
 {
     /// <summary>
     /// 服务方法自定义特性

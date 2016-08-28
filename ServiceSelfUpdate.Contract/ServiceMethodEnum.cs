@@ -1,4 +1,4 @@
-﻿namespace ServiceProcess
+﻿namespace SelfUpdate.Contract
 {
     public enum ServiceMethodEnum
     {

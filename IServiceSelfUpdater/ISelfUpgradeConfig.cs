@@ -1,7 +1,6 @@
-﻿using System;
-using ServiceSelfUpdate.Contract;
+﻿using SelfUpdate.Contract;
 
-namespace IServiceSelfUpdater
+namespace SelfUpdate.Interface
 {
     public interface IServiceSelfUpdateConfig
     {

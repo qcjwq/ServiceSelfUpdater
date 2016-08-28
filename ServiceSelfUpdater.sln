@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceProcess", "ServiceProcess\ServiceProcess.csproj", "{170F8ACB-A013-4F9D-BF5E-079D373E8439}"
 EndProject
@@ -13,11 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceUpdater", "ServiceUp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerUpdateWebHost", "ServerUpdateWebHost\ServerUpdateWebHost.csproj", "{C6BF3971-D29B-467B-A6F5-3D3EEDCCAA43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateEsExtension", "UpdateEsExtension\UpdateEsExtension.csproj", "{18394B43-3C55-4F8A-A388-AC300871BBF5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsExtension.Plugin", "UpdateEsExtension\EsExtension.Plugin.csproj", "{18394B43-3C55-4F8A-A388-AC300871BBF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IServiceSelfUpdater", "IServiceSelfUpdater\IServiceSelfUpdater.csproj", "{445CBD68-1CC7-47C6-B11C-E911B02C65F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdate.Interface", "IServiceSelfUpdater\SelfUpdate.Interface.csproj", "{445CBD68-1CC7-47C6-B11C-E911B02C65F1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceHostUserInfo", "ServiceHostUserInfo\ServiceHostUserInfo.csproj", "{86536105-425F-4E69-847D-BA0272F60AB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerInfo.Plugin", "ServiceHostUserInfo\CustomerInfo.Plugin.csproj", "{86536105-425F-4E69-847D-BA0272F60AB4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00-MainProject", "00-MainProject", "{1C444BA5-BC4F-4574-B789-FC3EDC6ED5D8}"
 EndProject
@@ -25,15 +25,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20-SubProject", "20-SubProj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "30-Interface", "30-Interface", "{87BF383E-16B8-4C71-933A-BB1899C3AACB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpgradeConfig", "UpgradeConfig\UpgradeConfig.csproj", "{427DD4AC-539E-4CF6-A6B7-9F8B125795B7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdateSetting.Config", "UpgradeConfig\SelfUpdateSetting.Config.csproj", "{427DD4AC-539E-4CF6-A6B7-9F8B125795B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceSelfUpdate.Contract", "ServiceSelfUpdate.Contract\ServiceSelfUpdate.Contract.csproj", "{F5BAD4D4-1D57-4946-B95B-F6E236C95920}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdate.Contract", "ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj", "{F5BAD4D4-1D57-4946-B95B-F6E236C95920}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "40 Contract", "40 Contract", "{A4C6EC8F-413C-4BE8-8F2E-B8DE7923853E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "50 PluginProject", "50 PluginProject", "{8EF522C7-07BA-4BD2-B4BB-8B4549622ECC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdateHelper", "SelfUpdateHelper\SelfUpdateHelper.csproj", "{7D5BF980-ECD9-410A-94BA-96BCDB71E4A0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "60 Config", "60 Config", "{955801CF-9BBA-44E7-8467-96F945236F6C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -182,7 +184,7 @@ Global
 		{18394B43-3C55-4F8A-A388-AC300871BBF5} = {8EF522C7-07BA-4BD2-B4BB-8B4549622ECC}
 		{445CBD68-1CC7-47C6-B11C-E911B02C65F1} = {87BF383E-16B8-4C71-933A-BB1899C3AACB}
 		{86536105-425F-4E69-847D-BA0272F60AB4} = {8EF522C7-07BA-4BD2-B4BB-8B4549622ECC}
-		{427DD4AC-539E-4CF6-A6B7-9F8B125795B7} = {8EF522C7-07BA-4BD2-B4BB-8B4549622ECC}
+		{427DD4AC-539E-4CF6-A6B7-9F8B125795B7} = {955801CF-9BBA-44E7-8467-96F945236F6C}
 		{F5BAD4D4-1D57-4946-B95B-F6E236C95920} = {A4C6EC8F-413C-4BE8-8F2E-B8DE7923853E}
 		{7D5BF980-ECD9-410A-94BA-96BCDB71E4A0} = {CBC11E13-0CA2-44C3-9F53-11796707C0A7}
 	EndGlobalSection

@@ -4,62 +4,45 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{18394B43-3C55-4F8A-A388-AC300871BBF5}</ProjectGuid>
+    <ProjectGuid>{445CBD68-1CC7-47C6-B11C-E911B02C65F1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UpdateEsExtension</RootNamespace>
-    <AssemblyName>UpdateEsExtension</AssemblyName>
+    <RootNamespace>SelfUpdate.Interface</RootNamespace>
+    <AssemblyName>SelfUpdate.Interface</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\ReleaseAssemblies\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\ReleaseAssemblies\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UpdateEsExtension.cs" />
+    <Compile Include="IServiceSelfUpdate.cs" />
+    <Compile Include="ISelfUpgradeConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IServiceSelfUpdater\IServiceSelfUpdater.csproj">
-      <Project>{445CBD68-1CC7-47C6-B11C-E911B02C65F1}</Project>
-      <Name>IServiceSelfUpdater</Name>
+    <ProjectReference Include="..\ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj">
+      <Project>{F5BAD4D4-1D57-4946-B95B-F6E236C95920}</Project>
+      <Name>SelfUpdate.Contract</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ServiceProcess\ServiceProcess.csproj">
-      <Project>{170f8acb-a013-4f9d-bf5e-079d373e8439}</Project>
-      <Name>ServiceProcess</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

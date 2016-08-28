@@ -1,9 +1,8 @@
-﻿using System;
-using System.Threading;
-using IServiceSelfUpdater;
+﻿using SelfUpdate.Interface;
+using SelfUpdateHelper;
 using ServiceProcess;
 
-namespace UpdateEsExtension
+namespace EsExtension.Plugin
 {
     public class UpdateEsExtension : IServiceSelfUpdate
     {

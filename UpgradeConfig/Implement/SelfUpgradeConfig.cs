@@ -1,11 +1,11 @@
 ﻿using System;
-using IServiceSelfUpdater;
-using ServiceSelfUpdate.Contract;
+using SelfUpdate.Contract;
+using SelfUpdate.Interface;
 
-namespace UpgradeConfig.Config.Implement
+namespace SelfUpdateSetting.Config.Implement
 {
     [Serializable]
-    public class SettingManager : IServiceSelfUpdateConfig
+    public class SelfUpgradeConfig : IServiceSelfUpdateConfig
     {
         public UpgradeSetting GetUpgradeSetting()
         {

@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using Ionic.Zip;
-using IServiceSelfUpdater;
-using ServiceSelfUpdate.Contract;
+using SelfUpdate.Contract;
+using SelfUpdate.Interface;
+using SelfUpdateHelper;
 using unirest_net.http;
 
 namespace ServiceProcess

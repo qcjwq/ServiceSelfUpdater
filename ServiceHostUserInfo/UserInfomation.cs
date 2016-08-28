@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using IServiceSelfUpdater;
+﻿using SelfUpdate.Interface;
+using SelfUpdateHelper;
 using ServiceProcess;
 
-namespace ServiceHostUserInfo
+namespace CustomerInfo.Plugin
 {
     public class UserInfomation : IServiceSelfUpdate
     {

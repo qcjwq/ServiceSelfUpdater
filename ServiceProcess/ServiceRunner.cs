@@ -2,7 +2,8 @@
 using System.IO;
 using System.Text;
 using System.Threading;
-using ServiceSelfUpdate.Contract;
+using SelfUpdate.Contract;
+using SelfUpdateHelper;
 
 namespace ServiceProcess
 {

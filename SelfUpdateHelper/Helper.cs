@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Ionic.Zip;
+using SelfUpdate.Contract;
 
-namespace ServiceProcess
+namespace SelfUpdateHelper
 {
     public class Helper
     {
