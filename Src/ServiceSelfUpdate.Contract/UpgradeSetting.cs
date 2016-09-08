@@ -19,5 +19,10 @@ namespace SelfUpdate.Contract
         /// 循环毫秒数
         /// </summary>
         public int StartLoop { get; set; }
+
+        /// <summary>
+        /// Java Host地址
+        /// </summary>
+        public string JavaHost { get; set; }
     }
 }

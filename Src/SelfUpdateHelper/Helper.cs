@@ -2,13 +2,16 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using log4net;
 using SelfUpdate.Contract;
 
 namespace SelfUpdateHelper
 {
     public class Helper
     {
-        private static readonly string Host = "http://localhost:8001/WebServiceTestTools4J/";
+        private static readonly string JavaHost = "http://localhost:8001/WebServiceTestTools4J/";
+
+        private readonly ILog log = LogManager.GetLogger("mylog");
 
         /// <summary>
         /// 获取完整服务方法名称
@@ -26,7 +29,7 @@ namespace SelfUpdateHelper
             }
 
             var methodName = attributes[0].MethodName;
-            return Path.Combine(Host, "api", methodName);
+            return Path.Combine(JavaHost, "api", methodName);
         }
 
         /// <summary>

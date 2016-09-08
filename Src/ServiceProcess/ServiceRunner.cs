@@ -16,6 +16,8 @@ namespace ServiceProcess
         private static bool readyToStop = true;
         private ServiceCore serviceCore;
 
+
+
         /// <summary>
         /// 当前配置
         /// </summary>
@@ -52,12 +54,6 @@ namespace ServiceProcess
         /// </summary>
         public void StartService()
         {
-            var log = LogManager.GetLogger("mylog");
-            log.Info("system start");
-            log.Info("hello world");
-
-            return;
-
             serviceStarted = true;
             StartServiceThread();
         }
@@ -81,8 +77,8 @@ namespace ServiceProcess
                 readyToStop = false;
                 serviceCore = new ServiceCore();
 
-                //Helper.HandlerAction(this.SetUpgradeSetting, this.LogAction);
-                //Helper.HandlerActionAsync(this.SubProcessUpgrade, this.LogAction);
+                Helper.HandlerAction(this.SetUpgradeSetting, this.LogAction);
+                Helper.HandlerActionAsync(this.SubProcessUpgrade, this.LogAction);
                 Helper.NewLine();
 
                 Helper.LogInfo(string.Format("当前版本：{0}，服务器版本：{1}，轮询周期：{2}毫秒", upgradeSetting.LocalVersion, upgradeSetting.ServiceVersion, upgradeSetting.StartLoop));
