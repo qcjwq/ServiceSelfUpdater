@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SelfUpdate.Contract
 {
@@ -24,5 +25,15 @@ namespace SelfUpdate.Contract
         /// Java Host地址
         /// </summary>
         public string JavaHost { get; set; }
+
+        /// <summary>
+        /// ES插件配置信息
+        /// </summary>
+        public List<EsExtensionInfo> EsExtension { get; set; }
+
+        /// <summary>
+        /// 文件夹等配置
+        /// </summary>
+        public DirectoryConfig DirConfig { get; set; }
     }
 }

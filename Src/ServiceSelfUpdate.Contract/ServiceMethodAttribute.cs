@@ -5,6 +5,7 @@ namespace SelfUpdate.Contract
     /// <summary>
     /// 服务方法自定义特性
     /// </summary>
+    [Serializable]
     [AttributeUsage(AttributeTargets.Field)]
     public class ServiceMethodAttribute : Attribute
     {

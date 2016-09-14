@@ -1,23 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net;
-using System.Reflection;
+using System.Linq;
 using System.Text;
-using ServiceProcess;
 using System.Threading;
+using System.Threading.Tasks;
+using ServiceProcess;
 
-namespace ServiceTestHarness
+namespace ServiceTest
 {
     class Program
     {
         static void Main(string[] args)
-        {
-            new Program().ServiceTest();
-            Console.ReadKey();
-        }
-
-        private void ServiceTest()
         {
             var service = new ServiceRunner();
 
@@ -35,6 +28,8 @@ namespace ServiceTestHarness
 
             Console.Write(" Stopped." + Environment.NewLine);
             Console.WriteLine("Press any key to exit the test harness.");
+
+            Console.ReadKey();
         }
     }
 }

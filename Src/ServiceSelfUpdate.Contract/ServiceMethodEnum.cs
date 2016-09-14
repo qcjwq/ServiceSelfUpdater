@@ -1,5 +1,8 @@
-﻿namespace SelfUpdate.Contract
+﻿using System;
+
+namespace SelfUpdate.Contract
 {
+    [Serializable]
     public enum ServiceMethodEnum
     {
         /// <summary>

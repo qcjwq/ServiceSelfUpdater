@@ -1,5 +1,6 @@
-﻿using SelfUpdate.Interface;
-using SelfUpdateHelper;
+﻿using System;
+using SelfUpdate.Contract;
+using SelfUpdate.Interface;
 using ServiceProcess;
 
 namespace CustomerInfo.Plugin
@@ -7,15 +8,16 @@ namespace CustomerInfo.Plugin
     public class UserInfomation : IServiceSelfUpdate
     {
         private readonly ServiceCore serviceCore;
+        private UpgradeSetting upgradeSetting;
 
         public UserInfomation()
         {
             serviceCore = new ServiceCore();
         }
 
-        public void Execute()
+        public void Execute(UpgradeSetting upgradeSetting)
         {
-            Helper.LogInfo("获取用户信息");
+            
         }
     }
 }

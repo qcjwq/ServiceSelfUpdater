@@ -12,33 +12,6 @@ namespace ServiceProcess
 {
     public class ServiceCore
     {
-        private readonly string UpgradeHost = "http://localhost/ServerUpdateWebHost";
-
-        /// <summary>
-        /// 更新包文件名
-        /// </summary>
-        private readonly string UpgradeFileName = "upgrade.zip";
-
-        /// <summary>
-        /// 接收文件夹
-        /// </summary>
-        private readonly string ReceiveDir;
-
-        /// <summary>
-        /// 接收临时文件夹
-        /// </summary>
-        private readonly string ReceiveTempDir;
-
-        /// <summary>
-        /// 启动文件夹
-        /// </summary>
-        private readonly string StartUpDir;
-
-        /// <summary>
-        /// 配置文件夹
-        /// </summary>
-        private readonly string ConfigDir;
-
         /// <summary>
         /// 文件和文件夹复制事件
         /// </summary>
@@ -49,12 +22,6 @@ namespace ServiceProcess
         /// </summary>
         public ServiceCore()
         {
-            var guid = Guid.NewGuid();
-            string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            this.ReceiveDir = Path.Combine(baseDirectory, "Upgrade");
-            this.ReceiveTempDir = Path.Combine(this.ReceiveDir, guid.ToString());
-            this.StartUpDir = Path.Combine(baseDirectory, "StartUp");
-            this.ConfigDir = Path.Combine(this.StartUpDir, "Config");
             this.CopyHandler += this.FileCopyEvent;
         }
 
@@ -83,7 +50,7 @@ namespace ServiceProcess
         /// <returns></returns>
         public bool NeedUpgrate(UpgradeSetting upgradeSetting)
         {
-            var method = Helper.GetMethodName(ServiceMethodEnum.ServerVersion);
+            var method = Helper.GetMethodName(upgradeSetting, ServiceMethodEnum.ServerVersion);
             var response = Unirest.get(method).asString().Body;
             int i;
             if (!int.TryParse(response, out i))
@@ -104,15 +71,16 @@ namespace ServiceProcess
         /// <summary>
         /// 获取配置更新文件
         /// </summary>
+        /// <param name="dirConfig">The dir configuration.</param>
         /// <returns></returns>
-        public UpgradeSetting GetUpgradeSetting()
+        public UpgradeSetting GetUpgradeSetting(DirectoryConfig dirConfig)
         {
-            if (!Directory.Exists(this.ConfigDir))
+            if (!Directory.Exists(dirConfig.ConfigDir))
             {
                 return null;
             }
 
-            var allDlls = Directory.GetFileSystemEntries(this.ConfigDir, "*.*");
+            var allDlls = Directory.GetFileSystemEntries(dirConfig.ConfigDir, "*.*");
             if (!allDlls.Any())
             {
                 return null;
@@ -120,12 +88,12 @@ namespace ServiceProcess
 
             if (allDlls.Length > 1)
             {
-                Directory.Delete(this.ConfigDir, true);
+                Directory.Delete(dirConfig.ConfigDir, true);
                 Helper.LogError("【清空】：配置文件数量多于一个，清空整个配置文件目录完成");
                 return null;
             }
 
-            var result = this.Invoke(allDlls[0], typeof(IServiceSelfUpdateConfig), "GetUpgradeSetting");
+            var result = this.Invoke(dirConfig, allDlls[0], typeof(IServiceSelfUpdateConfig), "GetUpgradeSetting", null);
             if (result == null || !(result is UpgradeSetting))
             {
                 return null;
@@ -137,29 +105,31 @@ namespace ServiceProcess
         /// <summary>
         /// 清理更新文件夹
         /// </summary>
-        public void CleanUpgradeDir()
+        /// <param name="upgradeSetting"></param>
+        public void CleanUpgradeDir(UpgradeSetting upgradeSetting)
         {
-            if (!Directory.Exists(this.ReceiveDir))
+            if (!Directory.Exists(upgradeSetting.DirConfig.ReceiveDir))
             {
                 return;
             }
 
-            Directory.Delete(this.ReceiveDir, true);
-            Helper.LogInfo(string.Format("【清理】：清理{0}文件夹成功", this.GetDirName(this.ReceiveDir)));
+            Directory.Delete(upgradeSetting.DirConfig.ReceiveDir, true);
+            Helper.LogInfo(string.Format("【清理】：清理{0}文件夹成功", this.GetDirName(upgradeSetting.DirConfig.ReceiveDir)));
         }
 
         /// <summary>
         /// 下载更新文件包
         /// </summary>
-        public void DownloadFile()
+        /// <param name="upgradeSetting"></param>
+        public void DownloadFile(UpgradeSetting upgradeSetting)
         {
-            var urlAddress = Path.Combine(UpgradeHost, "upgrade", UpgradeFileName);
-            if (!Directory.Exists(ReceiveTempDir))
+            var urlAddress = Path.Combine(upgradeSetting.DirConfig.UpgradeHost, "upgrade", upgradeSetting.DirConfig.UpgradeFileName);
+            if (!Directory.Exists(upgradeSetting.DirConfig.ReceiveTempDir))
             {
-                Directory.CreateDirectory(ReceiveTempDir);
+                Directory.CreateDirectory(upgradeSetting.DirConfig.ReceiveTempDir);
             }
 
-            var receivePath = Path.Combine(ReceiveTempDir, Path.GetFileName(urlAddress));
+            var receivePath = Path.Combine(upgradeSetting.DirConfig.ReceiveTempDir, Path.GetFileName(urlAddress));
             new WebClient().DownloadFile(urlAddress, receivePath);
 
             Helper.LogInfo("【下载】：下载文件完毕");
@@ -168,12 +138,13 @@ namespace ServiceProcess
         /// <summary>
         /// 解压更新包
         /// </summary>
-        public void Archive()
+        /// <param name="upgradeSetting"></param>
+        public void Archive(UpgradeSetting upgradeSetting)
         {
-            var filePath = Path.Combine(ReceiveTempDir, UpgradeFileName);
+            var filePath = Path.Combine(upgradeSetting.DirConfig.ReceiveTempDir, upgradeSetting.DirConfig.UpgradeFileName);
             using (var zip = new ZipFile(filePath))
             {
-                zip.ExtractAll(ReceiveTempDir, ExtractExistingFileAction.OverwriteSilently);
+                zip.ExtractAll(upgradeSetting.DirConfig.ReceiveTempDir, ExtractExistingFileAction.OverwriteSilently);
             }
 
             Helper.LogInfo("【解压】：解压文件完毕");
@@ -182,20 +153,21 @@ namespace ServiceProcess
         /// <summary>
         /// 复制文件
         /// </summary>
-        public void CopyFile()
+        /// <param name="upgradeSetting"></param>
+        public void CopyFile(UpgradeSetting upgradeSetting)
         {
-            if (!Directory.Exists(this.ReceiveTempDir))
+            if (!Directory.Exists(upgradeSetting.DirConfig.ReceiveTempDir))
             {
                 return;
             }
 
-            if (!Directory.Exists(StartUpDir))
+            if (!Directory.Exists(upgradeSetting.DirConfig.StartUpDir))
             {
                 Helper.LogInfo("【创建】：创建启动目录成功");
-                Directory.CreateDirectory(StartUpDir);
+                Directory.CreateDirectory(upgradeSetting.DirConfig.StartUpDir);
             }
 
-            this.CopyDirectoryAndFile(this.ReceiveTempDir, this.StartUpDir);
+            this.CopyDirectoryAndFile(upgradeSetting.DirConfig.ReceiveTempDir, upgradeSetting.DirConfig.StartUpDir);
         }
 
         /// <summary>
@@ -228,39 +200,44 @@ namespace ServiceProcess
         /// <summary>
         /// 删除更新文件夹
         /// </summary>
-        public void DeleteUpgradeDir()
+        /// <param name="upgradeSetting"></param>
+        public void DeleteUpgradeDir(UpgradeSetting upgradeSetting)
         {
-            if (!Directory.Exists(this.ReceiveDir))
+            if (!Directory.Exists(upgradeSetting.DirConfig.ReceiveDir))
             {
                 return;
             }
 
-            Directory.Delete(this.ReceiveTempDir, true);
-            Helper.LogInfo(string.Format("【删除】：文件夹{0}删除成功", this.GetDirName(this.ReceiveTempDir)));
+            Directory.Delete(upgradeSetting.DirConfig.ReceiveTempDir, true);
+            Helper.LogInfo(string.Format("【删除】：文件夹{0}删除成功", this.GetDirName(upgradeSetting.DirConfig.ReceiveTempDir)));
         }
 
         /// <summary>
         /// 启动子程序
         /// </summary>
-        public void RunSubProcess()
+        /// <param name="upgradeSetting"></param>
+        public void RunSubProcess(UpgradeSetting upgradeSetting)
         {
-            if (!Directory.Exists(this.StartUpDir))
+            if (!Directory.Exists(upgradeSetting.DirConfig.StartUpDir))
             {
                 return;
             }
 
-            var allDlls = Directory.GetFileSystemEntries(this.StartUpDir, "*.*").ToList();
-            allDlls.ForEach(a => Invoke(a, typeof(IServiceSelfUpdate), "Execute"));
+            var allDlls = Directory.GetFileSystemEntries(upgradeSetting.DirConfig.StartUpDir, "*.*").ToList();
+            allDlls.ForEach(a => Invoke(upgradeSetting.DirConfig, a, typeof(IServiceSelfUpdate), "Execute", new object[] { upgradeSetting }));
         }
 
         /// <summary>
         /// 通过反射，进行调用
         /// </summary>
-        /// <param name="assemblyPath"></param>
-        /// <param name="type"></param>
-        /// <param name="methodName"></param>
+        /// <param name="dirConfig"></param>
+        /// <param name="assemblyPath">The assembly path.</param>
+        /// <param name="type">The type.</param>
+        /// <param name="methodName">Name of the method.</param>
+        /// <param name="parameters"></param>
+        /// <param name="upgradeSetting">The upgrade setting.</param>
         /// <returns></returns>
-        private object Invoke(string assemblyPath, Type type, string methodName)
+        private object Invoke(DirectoryConfig dirConfig, string assemblyPath, Type type, string methodName, object[] parameters)
         {
             object result = null;
             if (!assemblyPath.EndsWith(".dll"))
@@ -274,7 +251,7 @@ namespace ServiceProcess
             {
                 var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(this.GetType().Module.Name, typeof(ProxyObject).FullName);
                 proxy.LoadAssembly(assemblyPath, type);
-                result = proxy.Invoke(methodName);
+                result = proxy.Invoke(methodName, parameters);
                 return result;
             }
             catch (Exception ex)
@@ -291,7 +268,7 @@ namespace ServiceProcess
                     Helper.LogInfo("【清空开始】：反射调用时出现异常，即将清空整个启动目录");
                     Helper.HandlerAction(() =>
                     {
-                        Directory.Delete(this.StartUpDir, true);
+                        Directory.Delete(dirConfig.StartUpDir, true);
                     });
                     Helper.LogInfo("【清空结束】：反射调用时出现异常，清空整个启动目录完成");
                 }

@@ -2,23 +2,19 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using log4net;
 using SelfUpdate.Contract;
 
 namespace SelfUpdateHelper
 {
     public class Helper
     {
-        private static readonly string JavaHost = "http://localhost:8001/WebServiceTestTools4J/";
-
-        private readonly ILog log = LogManager.GetLogger("mylog");
-
         /// <summary>
         /// 获取完整服务方法名称
         /// </summary>
+        /// <param name="upgradeSetting"></param>
         /// <param name="method"></param>
         /// <returns></returns>
-        public static string GetMethodName(ServiceMethodEnum method)
+        public static string GetMethodName(UpgradeSetting upgradeSetting, ServiceMethodEnum method)
         {
             var type = typeof(ServiceMethodEnum);
             var field = type.GetField(method.ToString());
@@ -29,7 +25,7 @@ namespace SelfUpdateHelper
             }
 
             var methodName = attributes[0].MethodName;
-            return Path.Combine(JavaHost, "api", methodName);
+            return Path.Combine(upgradeSetting.JavaHost, "api", methodName);
         }
 
         /// <summary>

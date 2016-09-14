@@ -1,7 +1,9 @@
-﻿namespace SelfUpdate.Interface
+﻿using SelfUpdate.Contract;
+
+namespace SelfUpdate.Interface
 {
     public interface IServiceSelfUpdate
     {
-        void Execute();
+        void Execute(UpgradeSetting upgradeSetting);
     }
 }

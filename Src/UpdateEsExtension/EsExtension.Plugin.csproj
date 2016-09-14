@@ -40,11 +40,6 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Net" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="UpdateEsExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -58,9 +53,16 @@
       <Name>SelfUpdateHelper</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceProcess\ServiceProcess.csproj">
-      <Project>{170f8acb-a013-4f9d-bf5e-079d373e8439}</Project>
+      <Project>{170F8ACB-A013-4F9D-BF5E-079D373E8439}</Project>
       <Name>ServiceProcess</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj">
+      <Project>{F5BAD4D4-1D57-4946-B95B-F6E236C95920}</Project>
+      <Name>SelfUpdate.Contract</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

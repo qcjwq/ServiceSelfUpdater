@@ -1,10 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
 using System.Threading;
-using log4net;
-using log4net.Config;
 using SelfUpdate.Contract;
 using SelfUpdateHelper;
 
@@ -16,29 +15,51 @@ namespace ServiceProcess
         private static bool readyToStop = true;
         private ServiceCore serviceCore;
 
-
-
         /// <summary>
         /// 当前配置
         /// </summary>
         private UpgradeSetting upgradeSetting;
 
         /// <summary>
-        /// 默认配置
+        /// 获取默认配置
         /// </summary>
-        private readonly UpgradeSetting defaultUpgradeSetting;
-
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        public ServiceRunner()
+        /// <returns></returns>
+        private UpgradeSetting DefaultUpgradeSetting
         {
-            this.defaultUpgradeSetting = new UpgradeSetting()
+            get
             {
-                LocalVersion = 0,
-                StartLoop = 500
-            };
-            this.upgradeSetting = this.defaultUpgradeSetting;
+                var guid = Guid.NewGuid();
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                var receiveDir = Path.Combine(baseDirectory, "Upgrade");
+                var receiveTempDir = Path.Combine(receiveDir, guid.ToString());
+                var startUpDir = Path.Combine(baseDirectory, "StartUp");
+                var configDir = Path.Combine(startUpDir, "Config");
+
+                return new UpgradeSetting()
+                {
+                    LocalVersion = 0,
+                    StartLoop = 5000,
+                    JavaHost = "http://localhost:8001/WebServiceTestTools4J/",
+                    EsExtension = new List<EsExtensionInfo>
+                    {
+                        new EsExtensionInfo()
+                        {
+                            EsExtensionPath = @"SOFTWARE\Policies\Google\Chrome\ExtensionInstallForcelist",
+                            EsExtensionKey = "1",
+                            EsExtensionValue = "iphnoceklekkgpafdggfgodicabghdje;http://10.2.9.80/ChromCrx/ESExtension.xml"
+                        }
+                    },
+                    DirConfig = new DirectoryConfig()
+                    {
+                        UpgradeHost = "http://10.2.9.80/ChromCrx",
+                        UpgradeFileName = "upgrade.zip",
+                        ReceiveDir = receiveDir,
+                        ReceiveTempDir = receiveTempDir,
+                        StartUpDir = startUpDir,
+                        ConfigDir = configDir
+                    }
+                };
+            }
         }
 
         public bool IsReadyToExit
@@ -78,10 +99,9 @@ namespace ServiceProcess
                 serviceCore = new ServiceCore();
 
                 Helper.HandlerAction(this.SetUpgradeSetting, this.LogAction);
-                Helper.HandlerActionAsync(this.SubProcessUpgrade, this.LogAction);
+                Helper.HandlerAction(this.SubProcessUpgrade, this.LogAction);
                 Helper.NewLine();
 
-                Helper.LogInfo(string.Format("当前版本：{0}，服务器版本：{1}，轮询周期：{2}毫秒", upgradeSetting.LocalVersion, upgradeSetting.ServiceVersion, upgradeSetting.StartLoop));
                 readyToStop = true;
                 Thread.Sleep(upgradeSetting.StartLoop);
             }
@@ -92,10 +112,16 @@ namespace ServiceProcess
         /// </summary>
         private void SetUpgradeSetting()
         {
-            var config = serviceCore.GetUpgradeSetting();
+            var directoryConfig = this.DefaultUpgradeSetting.DirConfig;
+            if (this.upgradeSetting != null && this.upgradeSetting.DirConfig != null)
+            {
+                directoryConfig = this.upgradeSetting.DirConfig;
+            }
+
+            var config = serviceCore.GetUpgradeSetting(directoryConfig);
             if (config == null)
             {
-                this.upgradeSetting = this.defaultUpgradeSetting;
+                this.upgradeSetting = this.DefaultUpgradeSetting;
                 return;
             }
 
@@ -107,20 +133,22 @@ namespace ServiceProcess
         /// </summary>
         private void SubProcessUpgrade()
         {
-            var needUpgrade = Helper.HandlerAction(serviceCore.NeedUpgrate, upgradeSetting);
+            var needUpgrade = Helper.HandlerAction(serviceCore.NeedUpgrate, this.upgradeSetting);
+            Helper.LogInfo(string.Format("【环境】：当前版本：{0}，服务器版本：{1}，轮询周期：{2}毫秒",
+                this.upgradeSetting.LocalVersion, this.upgradeSetting.ServiceVersion, this.upgradeSetting.StartLoop));
             if (needUpgrade)
             {
                 Helper.HandlerAction(() =>
                 {
-                    serviceCore.CleanUpgradeDir();
-                    serviceCore.DownloadFile();
-                    serviceCore.Archive();
-                    serviceCore.CopyFile();
-                    serviceCore.DeleteUpgradeDir();
+                    serviceCore.CleanUpgradeDir(upgradeSetting);
+                    serviceCore.DownloadFile(upgradeSetting);
+                    serviceCore.Archive(upgradeSetting);
+                    serviceCore.CopyFile(upgradeSetting);
+                    serviceCore.DeleteUpgradeDir(upgradeSetting);
                 });
             }
 
-            serviceCore.RunSubProcess();
+            serviceCore.RunSubProcess(upgradeSetting);
         }
 
         /// <summary>

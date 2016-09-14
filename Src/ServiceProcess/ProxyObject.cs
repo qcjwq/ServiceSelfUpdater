@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using SelfUpdate.Contract;
 
 namespace ServiceProcess
 {
@@ -18,7 +19,7 @@ namespace ServiceProcess
             }
         }
 
-        public object Invoke(string methodName)
+        public object Invoke(string methodName, object[] parameters)
         {
             if (assembly == null)
             {
@@ -28,7 +29,7 @@ namespace ServiceProcess
             var type = assembly.GetTypes()[0];
             var method = type.GetMethod(methodName);
             var obj = Activator.CreateInstance(type);
-            return method.Invoke(obj, new object[] { });
+            return method.Invoke(obj, parameters);
         }
     }
 }
