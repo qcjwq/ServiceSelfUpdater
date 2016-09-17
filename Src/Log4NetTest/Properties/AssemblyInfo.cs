@@ -6,12 +6,12 @@ using log4net.Config;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("SelfUpdateHelper")]
+[assembly: AssemblyTitle("Log4NetTest")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SelfUpdateHelper")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("Log4NetTest")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -21,7 +21,7 @@ using log4net.Config;
 [assembly: ComVisible(false)]
 
 // 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
-[assembly: Guid("7d5bf980-ecd9-410a-94ba-96bcdb71e4a0")]
+[assembly: Guid("8795a563-12a2-44c0-aeeb-f030b9edc8d9")]
 
 // 程序集的版本信息由下列四个值组成: 
 //

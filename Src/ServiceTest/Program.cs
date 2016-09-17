@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using SelfUpdateHelper;
 using ServiceProcess;
 
 namespace ServiceTest
@@ -28,6 +29,29 @@ namespace ServiceTest
 
             Console.Write(" Stopped." + Environment.NewLine);
             Console.WriteLine("Press any key to exit the test harness.");
+
+            Console.ReadKey();
+        }
+
+        private static void Test()
+        {
+            for (int i = 0; i < 1; i++)
+            {
+                Logger.Singleton.Debug("sdfsftest", new Exception("jkjskldjfksj"));
+                Logger.Singleton.Info("info");
+                Logger.Singleton.Warn("warn");
+
+                try
+                {
+                    var ij = 0;
+                    var j = 1 / ij;
+                }
+                catch (Exception e)
+                {
+                    Logger.Singleton.Error(e.Message, e);
+                    Logger.Singleton.Fatal(e.Message, e);
+                }
+            }
 
             Console.ReadKey();
         }

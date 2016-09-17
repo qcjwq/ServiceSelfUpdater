@@ -37,7 +37,7 @@ namespace ServiceProcess
 
                 return new UpgradeSetting()
                 {
-                    LocalVersion = 0,
+                    LocalVersion = 1,
                     StartLoop = 5000,
                     JavaHost = "http://localhost:8001/WebServiceTestTools4J/",
                     EsExtension = new List<EsExtensionInfo>
@@ -99,9 +99,14 @@ namespace ServiceProcess
                 serviceCore = new ServiceCore();
 
                 Helper.HandlerAction(this.SetUpgradeSetting, this.LogAction);
-                Helper.HandlerAction(this.SubProcessUpgrade, this.LogAction);
-                Helper.NewLine();
 
+#if DEBUG
+                Helper.HandlerAction(this.SubProcessUpgrade, this.LogAction);
+#else
+                Helper.HandlerActionAsync(this.SubProcessUpgrade, this.LogAction);
+#endif
+
+                Helper.NewLine();
                 readyToStop = true;
                 Thread.Sleep(upgradeSetting.StartLoop);
             }

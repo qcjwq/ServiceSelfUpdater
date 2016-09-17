@@ -97,14 +97,13 @@ namespace SelfUpdateHelper
             }
         }
 
-
         /// <summary>
         /// Log Info
         /// </summary>
         /// <param name="info"></param>
         public static void LogInfo(string info)
         {
-            Console.WriteLine("{0} - {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").PadRight(10, ' '), info);
+            Logger.Singleton.Info(info);
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace SelfUpdateHelper
         /// <param name="errorMessage"></param>
         public static void LogError(string errorMessage)
         {
-            Console.WriteLine("{0} - {1}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").PadRight(10, ' '), errorMessage);
+            Logger.Singleton.Error(errorMessage);
         }
 
         /// <summary>
