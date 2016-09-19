@@ -24,6 +24,7 @@ bld/
 
 Publish/*.pdb
 Publish/*.xml
+log/
 
 # Visual Studio 2015 cache/options directory
 .vs/

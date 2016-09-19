@@ -34,10 +34,10 @@ namespace ServiceProcessCore
                 var startUpDir = Path.Combine(baseDirectory, "StartUp");
                 var configDir = Path.Combine(startUpDir, "Config");
 
-                return new UpgradeSetting()
+                var setting = new UpgradeSetting()
                 {
                     LocalVersion = 0,
-                    StartLoop = 6 * 60 * 60,
+                    StartLoop = 6 * 60 * 60 * 1000,
                     JavaHost = "http://10.2.36.171:8001/",
                     EsExtension = new List<EsExtensionInfo>
                     {
@@ -59,6 +59,12 @@ namespace ServiceProcessCore
                         ConfigDir = configDir
                     }
                 };
+
+#if DEBUG
+                setting.StartLoop = 5000;
+#endif
+
+                return setting;
             }
         }
 

@@ -9,12 +9,11 @@ namespace EsExtension.Plugin
 {
     public class UpdateEsExtension : IServiceSelfUpdate
     {
-        private readonly ServiceCore serviceCore;
         private static RegistryKey RegistryKey;
 
         public UpdateEsExtension()
         {
-            serviceCore = new ServiceCore();
+
         }
 
         public void Execute(UpgradeSetting upgradeSetting)
