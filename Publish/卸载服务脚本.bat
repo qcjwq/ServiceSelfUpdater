@@ -1,3 +1,0 @@
-sc stop EsExtensionDaemonService
-sc delete EsExtensionDaemonService
-pause

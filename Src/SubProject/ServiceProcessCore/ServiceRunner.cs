@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using SelfUpdate.Contract;
 using SelfUpdateHelper;
 
-namespace ServiceProcess
+namespace ServiceProcessCore
 {
     public class ServiceRunner
     {

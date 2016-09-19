@@ -3,7 +3,7 @@ using Microsoft.Win32;
 using SelfUpdate.Contract;
 using SelfUpdate.Interface;
 using SelfUpdateHelper;
-using ServiceProcess;
+using ServiceProcessCore;
 
 namespace EsExtension.Plugin
 {

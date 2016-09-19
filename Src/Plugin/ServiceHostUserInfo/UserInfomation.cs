@@ -1,7 +1,7 @@
 ﻿using System;
 using SelfUpdate.Contract;
 using SelfUpdate.Interface;
-using ServiceProcess;
+using ServiceProcessCore;
 
 namespace CustomerInfo.Plugin
 {

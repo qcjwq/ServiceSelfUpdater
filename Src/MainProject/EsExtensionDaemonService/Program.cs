@@ -2,7 +2,7 @@
 using System.IO;
 using System.ServiceProcess;
 using SelfUpdateHelper;
-using ServiceProcess;
+using ServiceProcessCore;
 
 namespace EsExtensionDaemonService
 {

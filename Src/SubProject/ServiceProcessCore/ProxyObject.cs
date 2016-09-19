@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SelfUpdate.Contract;
 
-namespace ServiceProcess
+namespace ServiceProcessCore
 {
     [Serializable]
     public class ProxyObject : MarshalByRefObject

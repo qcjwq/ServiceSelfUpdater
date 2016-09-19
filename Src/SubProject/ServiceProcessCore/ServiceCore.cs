@@ -8,7 +8,7 @@ using SelfUpdate.Interface;
 using SelfUpdateHelper;
 using unirest_net.http;
 
-namespace ServiceProcess
+namespace ServiceProcessCore
 {
     public class ServiceCore
     {
