@@ -18,18 +18,35 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "60-Config", "60-Config", "{955801CF-9BBA-44E7-8467-96F945236F6C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsExtensionDaemonService", "MainProject\EsExtensionDaemonService\EsExtensionDaemonService.csproj", "{850EF8DD-A0EE-4CDA-8012-B6379A57E29F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86536105-425F-4E69-847D-BA0272F60AB4} = {86536105-425F-4E69-847D-BA0272F60AB4}
+		{18394B43-3C55-4F8A-A388-AC300871BBF5} = {18394B43-3C55-4F8A-A388-AC300871BBF5}
+		{445CBD68-1CC7-47C6-B11C-E911B02C65F1} = {445CBD68-1CC7-47C6-B11C-E911B02C65F1}
+		{427DD4AC-539E-4CF6-A6B7-9F8B125795B7} = {427DD4AC-539E-4CF6-A6B7-9F8B125795B7}
+		{F5BAD4D4-1D57-4946-B95B-F6E236C95920} = {F5BAD4D4-1D57-4946-B95B-F6E236C95920}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdate.Interface", "Interface\IServiceSelfUpdater\SelfUpdate.Interface.csproj", "{445CBD68-1CC7-47C6-B11C-E911B02C65F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerInfo.Plugin", "Plugin\ServiceHostUserInfo\CustomerInfo.Plugin.csproj", "{86536105-425F-4E69-847D-BA0272F60AB4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7D5BF980-ECD9-410A-94BA-96BCDB71E4A0} = {7D5BF980-ECD9-410A-94BA-96BCDB71E4A0}
+		{427DD4AC-539E-4CF6-A6B7-9F8B125795B7} = {427DD4AC-539E-4CF6-A6B7-9F8B125795B7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EsExtension.Plugin", "Plugin\UpdateEsExtension\EsExtension.Plugin.csproj", "{18394B43-3C55-4F8A-A388-AC300871BBF5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{427DD4AC-539E-4CF6-A6B7-9F8B125795B7} = {427DD4AC-539E-4CF6-A6B7-9F8B125795B7}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdateHelper", "SubProject\SelfUpdateHelper\SelfUpdateHelper.csproj", "{7D5BF980-ECD9-410A-94BA-96BCDB71E4A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SelfUpdate.Contract", "Contract\ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj", "{F5BAD4D4-1D57-4946-B95B-F6E236C95920}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceProcessCore", "SubProject\ServiceProcessCore\ServiceProcessCore.csproj", "{9F5EF6C3-BA43-4DF2-AFC4-AC612CD5A117}"
+	ProjectSection(ProjectDependencies) = postProject
+		{427DD4AC-539E-4CF6-A6B7-9F8B125795B7} = {427DD4AC-539E-4CF6-A6B7-9F8B125795B7}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

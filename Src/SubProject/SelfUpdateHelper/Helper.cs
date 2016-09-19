@@ -114,13 +114,5 @@ namespace SelfUpdateHelper
         {
             Logger.Singleton.Error(errorMessage);
         }
-
-        /// <summary>
-        /// 打印新行
-        /// </summary>
-        public static void NewLine()
-        {
-            Console.Write(Environment.NewLine);
-        }
     }
 }

@@ -54,7 +54,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="卸载服务脚本.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
