@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8795A563-12A2-44C0-AEEB-F030B9EDC8D9}</ProjectGuid>
+    <ProjectGuid>{850EF8DD-A0EE-4CDA-8012-B6379A57E29F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Log4NetTest</RootNamespace>
-    <AssemblyName>Log4NetTest</AssemblyName>
+    <RootNamespace>EsExtensionDaemonService</RootNamespace>
+    <AssemblyName>EsExtensionDaemonService</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -26,18 +26,16 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\..\Publish\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -47,19 +45,57 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Logger.cs" />
+    <Compile Include="EsExtensionDaemonService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EsExtensionDaemonService.Designer.cs">
+      <DependentUpon>EsExtensionDaemonService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="EsExtensionDaemonProjectInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EsExtensionDaemonProjectInstaller.Designer.cs">
+      <DependentUpon>EsExtensionDaemonProjectInstaller.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Log4Net.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
+    <None Include="卸载服务脚本.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="安装服务脚本.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="EsExtensionDaemonProjectInstaller.resx">
+      <DependentUpon>EsExtensionDaemonProjectInstaller.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EsExtensionDaemonService.resx">
+      <DependentUpon>EsExtensionDaemonService.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SelfUpdateHelper\SelfUpdateHelper.csproj">
+      <Project>{7D5BF980-ECD9-410A-94BA-96BCDB71E4A0}</Project>
+      <Name>SelfUpdateHelper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ServiceProcess\ServiceProcess.csproj">
+      <Project>{170F8ACB-A013-4F9D-BF5E-079D373E8439}</Project>
+      <Name>ServiceProcess</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

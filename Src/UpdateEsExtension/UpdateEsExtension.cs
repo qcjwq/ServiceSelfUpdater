@@ -24,7 +24,7 @@ namespace EsExtension.Plugin
                 return;
             }
 
-            Helper.LogInfo("【子程序】：子程序ES插件更新开始执行");
+            Logger.Singleton.Info("【子程序】：子程序ES插件更新开始执行");
             upgradeSetting.EsExtension.ForEach(a =>
             {
                 string path = a.EsExtensionPath;
@@ -43,7 +43,7 @@ namespace EsExtension.Plugin
                     Create(RegistryKey, path, key, value);
                 }
             });
-            Helper.LogInfo("【子程序】：子程序ES插件更新运行完毕");
+            Logger.Singleton.Info("【子程序】：子程序ES插件更新运行完毕");
         }
 
         /// <summary>

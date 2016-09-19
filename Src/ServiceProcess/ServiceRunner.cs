@@ -11,8 +11,8 @@ namespace ServiceProcess
 {
     public class ServiceRunner
     {
-        private static bool serviceStarted;
-        private static bool readyToStop = true;
+        private volatile bool serviceStarted;
+        private volatile bool readyToStop = true;
         private ServiceCore serviceCore;
 
         /// <summary>
@@ -37,9 +37,9 @@ namespace ServiceProcess
 
                 return new UpgradeSetting()
                 {
-                    LocalVersion = 1,
-                    StartLoop = 5000,
-                    JavaHost = "http://localhost:8001/WebServiceTestTools4J/",
+                    LocalVersion = 0,
+                    StartLoop = 6 * 60 * 60,
+                    JavaHost = "http://10.2.36.171:8001/",
                     EsExtension = new List<EsExtensionInfo>
                     {
                         new EsExtensionInfo()
@@ -53,6 +53,7 @@ namespace ServiceProcess
                     {
                         UpgradeHost = "http://10.2.9.80/ChromCrx",
                         UpgradeFileName = "upgrade.zip",
+                        BaseDirectory = baseDirectory,
                         ReceiveDir = receiveDir,
                         ReceiveTempDir = receiveTempDir,
                         StartUpDir = startUpDir,
@@ -76,7 +77,7 @@ namespace ServiceProcess
         public void StartService()
         {
             serviceStarted = true;
-            StartServiceThread();
+            Helper.HandlerActionAsync(StartServiceThread, this.LogAction);
         }
 
         /// <summary>
@@ -106,7 +107,7 @@ namespace ServiceProcess
                 Helper.HandlerActionAsync(this.SubProcessUpgrade, this.LogAction);
 #endif
 
-                Helper.NewLine();
+                Helper.LogInfo(Environment.NewLine);
                 readyToStop = true;
                 Thread.Sleep(upgradeSetting.StartLoop);
             }

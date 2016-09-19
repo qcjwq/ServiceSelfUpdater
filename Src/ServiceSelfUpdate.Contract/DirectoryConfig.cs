@@ -16,6 +16,11 @@ namespace SelfUpdate.Contract
         public string UpgradeFileName { get; set; }
 
         /// <summary>
+        /// 程序工作目录
+        /// </summary>
+        public string BaseDirectory { get; set; }
+
+        /// <summary>
         /// 接收文件夹
         /// </summary>
         public string ReceiveDir { get; set; }

@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Data;
 using System.Diagnostics;
+using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using ServiceProcess;
+using System.Threading.Tasks;
 
-namespace MyWindowsService
+namespace EsExtensionDaemonService
 {
-    public partial class MyWindowsService : ServiceBase
+    partial class EsExtensionDaemonService : ServiceBase
     {
-        public MyWindowsService()
+        public EsExtensionDaemonService()
         {
             InitializeComponent();
         }
 
         protected override void OnStart(string[] args)
         {
-            new ServiceRunner().StartService();
+            Program.Start(args);
         }
 
         protected override void OnStop()
         {
-            new ServiceRunner().StopService();
+            Program.Stop();
         }
     }
 }

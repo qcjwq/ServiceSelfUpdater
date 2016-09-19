@@ -240,7 +240,7 @@ namespace ServiceProcess
         private object Invoke(DirectoryConfig dirConfig, string assemblyPath, Type type, string methodName, object[] parameters)
         {
             object result = null;
-            if (!assemblyPath.EndsWith(".dll"))
+            if (!assemblyPath.EndsWith(".dll") || !File.Exists(assemblyPath))
             {
                 return result;
             }
@@ -249,7 +249,12 @@ namespace ServiceProcess
             var subAppDomain = AppDomain.CreateDomain("SubProcess");
             try
             {
-                var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(this.GetType().Module.Name, typeof(ProxyObject).FullName);
+                var assemblyName = Path.Combine(dirConfig.BaseDirectory, this.GetType().Module.Name);
+                if (Environment.UserInteractive)
+                {
+                    assemblyName = this.GetType().Module.Name;
+                }
+                var proxy = (ProxyObject)subAppDomain.CreateInstanceFromAndUnwrap(assemblyName, typeof(ProxyObject).FullName);
                 proxy.LoadAssembly(assemblyPath, type);
                 result = proxy.Invoke(methodName, parameters);
                 return result;
