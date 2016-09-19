@@ -34,17 +34,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\IServiceSelfUpdater\SelfUpdate.Interface.csproj">
+    <ProjectReference Include="..\..\Contract\ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj">
+      <Project>{F5BAD4D4-1D57-4946-B95B-F6E236C95920}</Project>
+      <Name>SelfUpdate.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Interface\IServiceSelfUpdater\SelfUpdate.Interface.csproj">
       <Project>{445CBD68-1CC7-47C6-B11C-E911B02C65F1}</Project>
       <Name>SelfUpdate.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SelfUpdateHelper\SelfUpdateHelper.csproj">
+    <ProjectReference Include="..\..\SubProject\SelfUpdateHelper\SelfUpdateHelper.csproj">
       <Project>{7D5BF980-ECD9-410A-94BA-96BCDB71E4A0}</Project>
       <Name>SelfUpdateHelper</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj">
-      <Project>{F5BAD4D4-1D57-4946-B95B-F6E236C95920}</Project>
-      <Name>SelfUpdate.Contract</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

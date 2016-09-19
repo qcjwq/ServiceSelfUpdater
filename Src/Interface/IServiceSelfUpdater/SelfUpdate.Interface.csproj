@@ -35,7 +35,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj">
+    <ProjectReference Include="..\..\Contract\ServiceSelfUpdate.Contract\SelfUpdate.Contract.csproj">
       <Project>{F5BAD4D4-1D57-4946-B95B-F6E236C95920}</Project>
       <Name>SelfUpdate.Contract</Name>
     </ProjectReference>
